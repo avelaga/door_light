@@ -4,12 +4,14 @@
 #define PIN 7
 #define LEN 8
 
-CRGB leds[NUM_LEDS];``
+CRGB leds[NUM_LEDS];
 int brightness[NUM_LEDS];
 int hue[NUM_LEDS];
 boolean on = false;
 int inc = 0;
 int hueInc = 0;
+float b;
+int n=0;
 
 int ledPin = 13;                // choose the pin for the LED
 int inputPin = 3;               // choose the input pin (for PIR sensor)
@@ -41,6 +43,31 @@ void readMotion() {
       pirState = LOW;
     }
   }
+}
+
+void clearLed() {
+
+    for (int x = 0; x < NUM_LEDS; x++) {
+      leds[x] = CHSV( 0, 0, 0);
+    }
+}
+
+void twinkle2() {
+  clearLed();
+  for (int y = 0; y < NUM_LEDS; y ++) {
+    b = (map(inoise8(y * 300, n / 5.0), 0, 255, -255, 200));
+    if (b > 0) {
+      b = map(b, -255, 200, 0, 12);
+
+
+        leds[y]=CRGB(b,b,b);
+    
+
+    }
+  }
+
+  n+=20;
+
 }
 
 void loop() {
@@ -82,14 +109,17 @@ void loop() {
   }
 
   if (timeLeft == 0) {
-    for (int x = 0; x < NUM_LEDS; x++) {
-      leds[x] = CHSV(0, 0, 0);
-      for (int a = NUM_LEDS - 1; a > 0; a--) {
-        hue[a] = 0;
-        brightness[a] = 0;
-      }
-      FastLED.show();
-    }
+    // for (int x = 0; x < NUM_LEDS; x++) {
+    //   leds[x] = CHSV(0, 0, 0);
+    //   for (int a = NUM_LEDS - 1; a > 0; a--) {
+    //     hue[a] = 0;
+    //     brightness[a] = 0;
+    //   }
+    //   FastLED.show();
+    // }
+
+    twinkle2();
+    FastLED.show();
 
   }
 }
