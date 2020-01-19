@@ -4,7 +4,7 @@
 #define PIN 7
 #define LEN 8
 
-CRGB leds[NUM_LEDS];
+CRGB leds[NUM_LEDS];``
 int brightness[NUM_LEDS];
 int hue[NUM_LEDS];
 boolean on = false;
